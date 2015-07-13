@@ -8,8 +8,19 @@
  	<p>First name: <input type="text" ng-model="firstName"></p>
  	<p>Last name: <input type="text" ng-model="lastName"></p>
 
- 	<p>{{firstName + " " + lastName}}</p>
+ 	<p>{{firstName + " " + lastName | uppercase}}</p>
+ 	<p>Sales: {{sales | currency}}</p>
  	
+</div>
+
+<div data-ng-app="myApp" data-ng-controller="customersCtrl">
+	
+	<ul>
+  <li ng-repeat="x in names">
+    {{ x.Name + ', ' + x.Country }}
+  </li>
+</ul>
+
 </div>
 
 <script>
@@ -17,6 +28,13 @@
 	app.controller("myController", function($scope){
 		$scope.firstName = "John";
 		$scope.lastName = "Doe";
+		$scope.sales = 100.5;
+	});
+
+	var app = angular.module('myApp', []);
+	app.controller('customersCtrl', function($scope, $http) {
+	    $http.get("http://localhost/angular/customers.php")
+	    .success(function(response) {$scope.names = response.records;});
 	});
 </script>
 
